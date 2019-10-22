@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"Bigger",Toast.LENGTH_LONG).show();
         }else {
             Toast.makeText(MainActivity.this,"Bingo",Toast.LENGTH_LONG).show();
-            result.setImageResource(R.drawable.shit);
-            result.setVisibility(view.VISIBLE);
+         
         }
 
     }
