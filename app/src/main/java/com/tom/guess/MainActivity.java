@@ -39,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                counter = 0;
+                counter =0;
                 count.setText(""+counter);
-                int number = 0;
+                num.setText("");
+
             }
         });
     }
