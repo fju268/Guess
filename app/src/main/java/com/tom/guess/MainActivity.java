@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView num;
     private TextView count;
     private ImageView result;
+    private int counter =0;
     int secret = new Random().nextInt(20)+1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,29 +31,45 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         num = findViewById(R.id.number);
+        result = findViewById(R.id.imageView);
+        count = findViewById(R.id.count);
         Log.d("Ding","Secret: "+secret);
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                counter = 0;
+                count.setText(""+counter);
+                int number = 0;
             }
         });
     }
 
     public void guess(View view){
+        counter++;
+        count.setText(""+counter);
         int number = Integer.parseInt(num.getText().toString());
+        result.setVisibility(View.VISIBLE);
+        result.setAlpha(1.0f);
         if(number>secret){
-            Toast.makeText(MainActivity.this,"Smaller",Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this,"Smaller",Toast.LENGTH_SHORT).show();
+            result.setImageResource(R.drawable.haha);
+            result.animate().alpha(0.0f).setDuration(1000);
         }else if(number<secret){
-            Toast.makeText(MainActivity.this,"Bigger",Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this,"Bigger",Toast.LENGTH_SHORT).show();
+            result.setImageResource(R.drawable.haha);
+            result.animate().alpha(0.0f).setDuration(1000);
         }else {
-            Toast.makeText(MainActivity.this,"Bingo",Toast.LENGTH_LONG).show();
-         
+            Toast.makeText(MainActivity.this,"Bingo",Toast.LENGTH_SHORT).show();
+            result.setImageResource(R.drawable.shit);
+            result.setVisibility(View.VISIBLE);
+
         }
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
