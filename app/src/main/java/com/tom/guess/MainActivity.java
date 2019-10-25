@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView num;
     private TextView count;
     private ImageView result;
+    private Button guess;
     private int counter =0;
     int secret = new Random().nextInt(20)+1;
     @Override
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         num = findViewById(R.id.number);
         result = findViewById(R.id.imageView);
         count = findViewById(R.id.count);
+        guess = findViewById(R.id.button);
         Log.d("Ding","Secret: "+secret);
         FloatingActionButton fab = findViewById(R.id.fab);
 
@@ -42,17 +45,30 @@ public class MainActivity extends AppCompatActivity {
                 counter =0;
                 count.setText(""+counter);
                 num.setText("");
-
+                guess.setVisibility(View.VISIBLE);
             }
         });
     }
 
+
     public void guess(View view){
         counter++;
         count.setText(""+counter);
+        if(num!=null&&num.getText().toString().isEmpty()){
+            Toast.makeText(MainActivity.this,"You mother fucker",Toast.LENGTH_SHORT).show();
+        }
         int number = Integer.parseInt(num.getText().toString());
         result.setVisibility(View.VISIBLE);
         result.setAlpha(1.0f);
+        if (counter>7){
+            Toast.makeText(MainActivity.this,"Trash",Toast.LENGTH_SHORT).show();
+        }
+        if(number==secret &&counter<4){
+            Toast.makeText(MainActivity.this,"Genius",Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,"Bingo",Toast.LENGTH_SHORT).show();
+            result.setImageResource(R.drawable.shit);
+            result.setVisibility(View.VISIBLE);
+        }
         if(number>secret){
             Toast.makeText(MainActivity.this,"Smaller",Toast.LENGTH_SHORT).show();
             result.setImageResource(R.drawable.haha);
@@ -65,12 +81,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this,"Bingo",Toast.LENGTH_SHORT).show();
             result.setImageResource(R.drawable.shit);
             result.setVisibility(View.VISIBLE);
-
         }
-
+            if (number!=secret &&counter>10){
+            result.setImageResource(R.drawable.middle);
+            result.animate().alpha(0.0f).setDuration(2000);
+            guess.setVisibility(View.INVISIBLE);
+        }
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
