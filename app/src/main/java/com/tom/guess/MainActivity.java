@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 count.setText(""+counter);
                 num.setText("");
                 guess.setVisibility(View.VISIBLE);
+                result.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -54,38 +55,39 @@ public class MainActivity extends AppCompatActivity {
     public void guess(View view){
         counter++;
         count.setText(""+counter);
-        if(num!=null&&num.getText().toString().isEmpty()){
+        try {
+            int number = Integer.parseInt(num.getText().toString());
+            result.setVisibility(View.VISIBLE);
+            result.setAlpha(1.0f);
+            if (counter > 7) {
+                Toast.makeText(MainActivity.this, "Trash", Toast.LENGTH_SHORT).show();
+            }
+            if (number == secret && counter < 4) {
+                Toast.makeText(MainActivity.this, "Genius", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Bingo", Toast.LENGTH_SHORT).show();
+                result.setImageResource(R.drawable.shit);
+                result.setVisibility(View.VISIBLE);
+            }
+            if (number > secret) {
+                Toast.makeText(MainActivity.this, "Smaller", Toast.LENGTH_SHORT).show();
+                result.setImageResource(R.drawable.haha);
+                result.animate().alpha(0.0f).setDuration(1000);
+            } else if (number < secret) {
+                Toast.makeText(MainActivity.this, "Bigger", Toast.LENGTH_SHORT).show();
+                result.setImageResource(R.drawable.haha);
+                result.animate().alpha(0.0f).setDuration(1000);
+            } else {
+                Toast.makeText(MainActivity.this, "Bingo", Toast.LENGTH_SHORT).show();
+                result.setImageResource(R.drawable.shit);
+                result.setVisibility(View.VISIBLE);
+            }
+            if (number != secret && counter > 10) {
+                result.setImageResource(R.drawable.middle);
+                result.animate().alpha(0.0f).setDuration(2000);
+                guess.setVisibility(View.INVISIBLE);
+            }
+        }catch (Exception e){
             Toast.makeText(MainActivity.this,"You mother fucker",Toast.LENGTH_SHORT).show();
-        }
-        int number = Integer.parseInt(num.getText().toString());
-        result.setVisibility(View.VISIBLE);
-        result.setAlpha(1.0f);
-        if (counter>7){
-            Toast.makeText(MainActivity.this,"Trash",Toast.LENGTH_SHORT).show();
-        }
-        if(number==secret &&counter<4){
-            Toast.makeText(MainActivity.this,"Genius",Toast.LENGTH_SHORT).show();
-            Toast.makeText(MainActivity.this,"Bingo",Toast.LENGTH_SHORT).show();
-            result.setImageResource(R.drawable.shit);
-            result.setVisibility(View.VISIBLE);
-        }
-        if(number>secret){
-            Toast.makeText(MainActivity.this,"Smaller",Toast.LENGTH_SHORT).show();
-            result.setImageResource(R.drawable.haha);
-            result.animate().alpha(0.0f).setDuration(1000);
-        }else if(number<secret){
-            Toast.makeText(MainActivity.this,"Bigger",Toast.LENGTH_SHORT).show();
-            result.setImageResource(R.drawable.haha);
-            result.animate().alpha(0.0f).setDuration(1000);
-        }else {
-            Toast.makeText(MainActivity.this,"Bingo",Toast.LENGTH_SHORT).show();
-            result.setImageResource(R.drawable.shit);
-            result.setVisibility(View.VISIBLE);
-        }
-            if (number!=secret &&counter>10){
-            result.setImageResource(R.drawable.middle);
-            result.animate().alpha(0.0f).setDuration(2000);
-            guess.setVisibility(View.INVISIBLE);
         }
     }
 
