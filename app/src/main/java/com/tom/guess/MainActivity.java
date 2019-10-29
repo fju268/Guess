@@ -1,10 +1,12 @@
 package com.tom.guess;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                secret = new Random().nextInt(20)+1;
                 counter =0;
                 count.setText(""+counter);
                 num.setText("");
@@ -55,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
     public void guess(View view){
         counter++;
         count.setText(""+counter);
+        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reset();
+            }
+        };
         try {
             int number = Integer.parseInt(num.getText().toString());
             result.setVisibility(View.VISIBLE);
@@ -87,8 +96,20 @@ public class MainActivity extends AppCompatActivity {
                 guess.setVisibility(View.INVISIBLE);
             }
         }catch (Exception e){
-            Toast.makeText(MainActivity.this,"You mother fucker",Toast.LENGTH_SHORT).show();
+            counter--;
+            count.setText(""+counter);
+           new AlertDialog.Builder(MainActivity.this)
+                   .setTitle("Don't lie me !!!")
+                   .setMessage("You mother fucker")
+                   .setPositiveButton("ok",listener)
+                   .show();
         }
+    }
+
+    private void reset() {
+        secret = new Random().nextInt(20)+1;
+        counter = 0;
+        count.setText(""+counter);
     }
 
     @Override
